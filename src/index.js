@@ -109,9 +109,19 @@ console.log(user.room);
 
     socket.on('image', async (image) => {
         // image is an array of bytes
-        const user = removeUser(socket.id)
+        const user = getUser(socket.id)
         const buffer = Buffer.from(image);
-        await fs.writeFile('/tmp/upload', buffer, (err) => err && console.error(err)); // fs.promises
+        await fs.writeFile('/tmp/upload', buffer, (err) =>
+
+             //err && console.error(err)
+
+       {
+            if(err){
+                return console.error(err)
+            }
+            console.log('Image Uploaded')
+        }
+        ); // fs.promises
 
         socket.emit('image',generateImageMessage(user.username, image.toString('base64'))) // image should be a buffer
     });

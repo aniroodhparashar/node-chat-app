@@ -158,6 +158,7 @@ document.getElementById('file').addEventListener('change', function() {
 
 // Client side
 socket.on('image', (message) => {
+    //console.log('Hello')
     // create image with
     const img = new Image();
     // change image type to whatever you use, or detect it in the backend
