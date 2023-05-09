@@ -66,6 +66,8 @@ socket.on('locationMessage',(url) =>{
 
     })
     $messages.insertAdjacentHTML('beforeend',html)
+
+    autoscroll()
 })
 
 socket.on('roomData',( { room, users } ) =>{
@@ -143,3 +145,34 @@ socket.emit('join', { username,room } , (error) =>{
     }
 })
 
+document.getElementById('file').addEventListener('change', function() {
+
+    const reader = new FileReader();
+    reader.onload = function() {
+        const bytes = new Uint8Array(this.result);
+        socket.emit('image', bytes);
+    };
+    reader.readAsArrayBuffer(this.files[0]);
+
+}, false);
+
+// Client side
+socket.on('image', (message) => {
+    // create image with
+    const img = new Image();
+    // change image type to whatever you use, or detect it in the backend
+    // and send it if you support multiple extensions
+    console.log(message)
+    img.src = `data:image/jpg;base64,${message.image}`;
+
+    const html = Mustache.render(messageTemplate,{
+
+        username:message.username,
+        image: img.src,
+        createdAt:moment(message.createdAt).format('h:mm A')    //
+    })
+
+    $messages.insertAdjacentHTML('beforeend',html)
+    autoscroll()
+    // Insert it into the DOM
+});

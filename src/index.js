@@ -3,8 +3,9 @@ const http = require('http')
 const express = require('express')
 const socketio = require('socket.io')
 const Filter = require('bad-words')
-const { generateMessage, generateLocationMessage } = require('./utils/messages')
+const { generateMessage, generateLocationMessage, generateImageMessage } = require('./utils/messages')
 const { addUser, getUser, getUsersInRoom, removeUser } = require('./utils/users')
+const fs = require('fs')
 
 const app = express()
 
@@ -104,6 +105,17 @@ console.log(user.room);
     //     //socket.emit('countUpdated',count)\
     //     io.emit('countUpdated',count)
     // })
+
+
+    socket.on('image', async (image) => {
+        // image is an array of bytes
+        const user = removeUser(socket.id)
+        const buffer = Buffer.from(image);
+        await fs.writeFile('/tmp/upload', buffer, (err) => err && console.error(err)); // fs.promises
+
+        socket.emit('image',generateImageMessage(user.username, image.toString('base64'))) // image should be a buffer
+    });
+
 
 })
 

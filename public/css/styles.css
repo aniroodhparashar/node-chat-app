@@ -181,3 +181,45 @@ button:disabled {
     font-weight: 300;
     padding: 12px 24px 0 24px;
 }
+
+
+
+/*File upload*/
+
+.file-upload {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    font-size: 16px;
+    color: #333;
+    padding: 10px;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    overflow: hidden;
+    margin: 0 16px 0 0;
+}
+
+.file-upload:hover {
+    background-color: #f5f5f5;
+}
+
+.file-upload input[type="file"] {
+    position: absolute;
+    top: 0;
+    right: 0;
+    margin: 0;
+    opacity: 0;
+    font-size: 100px;
+    cursor: pointer;
+}
+
+.file-upload i {
+    margin-right: 10px;
+}
+
+.file-upload span {
+    display: inline-block;
+    vertical-align: middle;
+    margin-top: -3px;
+}
