@@ -65,7 +65,7 @@ io.on('connection',(socket) => {
 
         const user = getUser(socket.id)
         const filter = new Filter()
-console.log(user.room);
+//console.log(user.room);
 
         if(filter.isProfane(generateMessage('Admin',message))) {
             //socket.emit('countUpdated',count)\
@@ -113,13 +113,14 @@ console.log(user.room);
     // })
 
 
-    socket.on('image', async (image) => {
+    socket.on('image',  (image) => {
         // image is an array of bytes
         const user = getUser(socket.id)
 
-        const buffer = await sharp(image).resize({width:30,height:30}).png().toBuffer()
+        const buffer = Buffer.from(image,"base64");
+        // const buffer = await sharp(image).resize({width:30,height:30}).png().toBuffer()
         console.log(buffer)
-        await fs.writeFile('/tmp/upload', buffer, (err) =>
+         fs.writeFile('/tmp/upload', buffer, (err) =>
              //err && console.error(err)
 
        {
@@ -130,7 +131,8 @@ console.log(user.room);
         }
         ); // fs.promises
 
-        socket.emit('image',generateImageMessage(user.username, image.toString('base64'))) // image should be a buffer
+        // socket.emit('image', { image: true, buffer: buf.toString('base64') });
+        io.to(user.room).emit('image',generateImageMessage(user.username, image.toString('base64'))) // image should be a buffer
     });
 
 

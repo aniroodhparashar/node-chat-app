@@ -9,7 +9,9 @@ const $messages = document.querySelector('#messages')
 //Templates
 const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationTemplate = document.querySelector('#location-template').innerHTML
+const imageTemplate = document.querySelector('#image-template').innerHTML
 const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
+
 
 //options
 const { username, room } = Qs.parse(location.search, { ignoreQueryPrefix : true })
@@ -158,22 +160,36 @@ document.getElementById('file').addEventListener('change', function() {
 
 // Client side
 socket.on('image', (message) => {
-    //console.log('Hello')
+   // console.log(message)
     // create image with
     const img = new Image();
     // change image type to whatever you use, or detect it in the backend
     // and send it if you support multiple extensions
-    console.log(message)
+  //  console.log(message)
+
+
+
     img.src = `data:image/jpg;base64,${message.image}`;
 
-    const html = Mustache.render(messageTemplate,{
 
-        username:message.username,
-        image: img.src,
-        createdAt:moment(message.createdAt).format('h:mm A')    //
-    })
+    img.onload = function() {
+        const html = Mustache.render(imageTemplate, {
 
-    $messages.insertAdjacentHTML('beforeend',html)
-    autoscroll()
+            username: message.username,
+            image: img.src,
+            createdAt: moment(message.createdAt).format('h:mm A')    //
+        })
+        $messages.insertAdjacentHTML('beforeend',html)
+
+
+        autoscroll()
+    }
+
+    img.onerror = function() {
+        console.log('Error loading image');
+    }
+
+
+
     // Insert it into the DOM
 });
