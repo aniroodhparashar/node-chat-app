@@ -1,16 +1,24 @@
 const socket = io()
 
+//import {getUser } from '../../src/utils/users'
+
+var typing=false;
+var timeout=undefined;
+var user=''
+
 const $messageForm = document.querySelector('#message-form');
 const $messageFormInput = document.querySelector('#message-field');
 const $messageFormButton =  document.querySelector('button');
 const $locationButton = document.querySelector('#send-location')
 const $messages = document.querySelector('#messages')
+const $loader = document.querySelector('#loader');
 
 //Templates
 const messageTemplate = document.querySelector('#message-template').innerHTML
 const locationTemplate = document.querySelector('#location-template').innerHTML
 const imageTemplate = document.querySelector('#image-template').innerHTML
 const sidebarTemplate = document.querySelector('#sidebar-template').innerHTML
+const typingTemplate = document.querySelector('#typing-template').innerHTML
 
 
 //options
@@ -147,21 +155,41 @@ socket.emit('join', { username,room } , (error) =>{
     }
 })
 
+
+//read image and display loader
 document.getElementById('file').addEventListener('change', function() {
 
     const reader = new FileReader();
+
+    // Show the loader
+    $loader.style.display = 'flex'
+    reader.onerror = function() {
+        $loader.style.display = 'none'
+        console.log('Error loading image')
+    }
     reader.onload = function() {
-        const bytes = new Uint8Array(this.result);
+        const bytes = new Uint8Array(this.result)
         socket.emit('image', bytes);
+
     };
-    reader.readAsArrayBuffer(this.files[0]);
+    console.log(this.files[0])
+    if(this.files[0] ===undefined) {
+        $loader.style.display = 'none'
+
+    }
+    reader.readAsArrayBuffer(this.files[0])
+
+
+
 
 }, false);
 
-// Client side
+//read image buffer and display on UI
 socket.on('image', (message) => {
    // console.log(message)
     // create image with
+    $loader.style.display = 'none';
+
     const img = new Image();
     // change image type to whatever you use, or detect it in the backend
     // and send it if you support multiple extensions
@@ -189,7 +217,43 @@ socket.on('image', (message) => {
         console.log('Error loading image');
     }
 
-
-
-    // Insert it into the DOM
 });
+
+socket.on('userSet', (data)=> {
+    user = data.username
+})
+/*Show typing indicator*/
+$messageFormInput.addEventListener('keypress', function(e) {
+     console.log(user)
+    // console.log(e.keyCode)
+console.log(socket.id)
+   // const user = getUser(socket.id)
+    if(e.keyCode!==13){
+        typing = true
+        socket.emit('typing',{user:user,typing:true})
+        clearTimeout(timeout)
+        timeout=setTimeout(typingTimeout,1500)
+    }else{
+        clearTimeout(timeout)
+        typingTimeout()
+    }
+
+    socket.on('display', (data)=>{
+        if(data.typing==true) {
+            document.querySelector('#typing').innerHTML =`${user} is typing...`
+
+
+            autoscroll()
+        }
+        else {
+            document.querySelector('#typing').innerHTML = ''
+          //  $messages.insertAdjacentHTML('beforeend', document.querySelector('#typing').innerHTML)
+        }
+    })
+
+})
+function typingTimeout(){
+    typing=false
+    socket.emit('typing', {user:user, typing:false})
+}
+

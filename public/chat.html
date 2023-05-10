@@ -19,16 +19,27 @@
 
   <div class="chat__main col col-md-9">
 
-    <div id="messages" class="chat__messages"></div>
+    <div id="messages" class="chat__messages">
+
+    </div>
 
 
-    <div class="compose">
+      <!-- Add a loader element to the DOM -->
+      <div id="loader" style="display: none;">
+          <div class="spinner"></div>
+          <div class="loading-message">Sending...</div>
+      </div>
+
+      <div  id="typing" style="padding-left: 25px"></div>
+      <div class="compose">
+
         <label for="file" class="file-upload">
             <i class="fa-solid fa-arrow-up-from-bracket"></i>
             <span>Send Image</span>
             <input type="file" id="file" accept="image/png, image/gif, image/jpeg" name="file">
         </label>
       <form id="message-form">
+
         <input type="text" name="message" id="message-field" placeholder="Type your message" required autocomplete="off">
 <!--          <input type="file" id='file'  placeholder="Send a file"/>-->
 
@@ -47,6 +58,7 @@
 
 <script id="message-template" type="text/html">
   <div class="message">
+
     <p>
             <span class="message__name">
           {{username}}
@@ -55,10 +67,13 @@
                 {{createdAt}}
             </span>
     </p>
+
     <p>{{message}}</p>
     <p>
     <img style="width: 20%;height: auto" src="{{image}}">
     </p>
+
+
   </div>
 </script>
 
@@ -95,8 +110,24 @@
     </div>
 </script>
 
+<script id="typing-template" type="text/html">
+<div class="message">
+    <p>
+            <span class="message__name">
+          {{username}}
+            </span>
+
+    </p>
+    <p >
+
+
+    </p>
+</div>
+</script>
+
 <script id="sidebar-template" type="text/html">
 <h2 class="room-title">{{room}}</h2>
+
 <h3 class="list-title">Users</h3>
     <ul class="users">
         {{#users}}

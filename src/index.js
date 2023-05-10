@@ -56,6 +56,7 @@ io.on('connection',(socket) => {
             users:getUsersInRoom(user.room)
         })
 
+        socket.emit('userSet', {username:user.username,room:user.room})
         callback()
 
         //io.to.emit -- emits to everyone in a room , socket.boradcast.to.emit
@@ -134,6 +135,17 @@ io.on('connection',(socket) => {
         // socket.emit('image', { image: true, buffer: buf.toString('base64') });
         io.to(user.room).emit('image',generateImageMessage(user.username, image.toString('base64'))) // image should be a buffer
     });
+
+
+    socket.on('typing', (data)=>{
+        console.log(data)
+        const user = getUser(socket.id)
+
+        if(data.typing==true)
+            socket.broadcast.to(user.room).emit('display', data)
+        else
+            socket.broadcast.to(user.room).emit('display', data)
+    })
 
 
 })
