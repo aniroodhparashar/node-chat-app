@@ -7,7 +7,7 @@ const { generateMessage, generateLocationMessage, generateImageMessage } = requi
 const { addUser, getUser, getUsersInRoom, removeUser } = require('./utils/users')
 const fs = require('fs')
 const sharp = require('sharp')
-const multer = require('multer')
+
 
 
 const app = express()
@@ -111,36 +111,6 @@ console.log(user.room);
     //     //socket.emit('countUpdated',count)\
     //     io.emit('countUpdated',count)
     // })
-
-    const upload = multer({
-        // dest:'avatar',
-        limits:{
-            fileSize:5000000
-        },
-        fileFilter(req,file,cb){
-            if(!file.originalname.match(/\.(jpg|jpeg|png)$/)){
-                return cb(new Error('Please upload an image with .jpg,.jpeg or.png format. '))
-            }
-
-            cb(undefined, true)
-
-        }
-    })
-
-
-
-        // socket.on("image", (file, callback) => {
-        //     const user = getUser(socket.id)
-        //     console.log(file); // <Buffer 25 50 44 ...>
-        //
-        //     // save the content to the disk, for example
-        //     fs.writeFile("/tmp/upload", file, (err) => {
-        //         callback({ message: err ? "failure" : "success" });
-        //     });
-        //     socket.emit('image',generateImageMessage(user.username, file.toString('base64'))) // image should be a buffer
-        // });
-        //
-
 
 
     socket.on('image', async (image) => {
