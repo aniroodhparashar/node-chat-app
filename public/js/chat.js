@@ -221,32 +221,38 @@ socket.on('image', (message) => {
 
 socket.on('userSet', (data)=> {
     user = data.username
+    console.log(user)
 })
 /*Show typing indicator*/
 $messageFormInput.addEventListener('keypress', function(e) {
-     console.log(user)
+     console.log("heeee ",user)
     // console.log(e.keyCode)
 console.log(socket.id)
    // const user = getUser(socket.id)
+
     if(e.keyCode!==13){
         typing = true
         socket.emit('typing',{user:user,typing:true})
         clearTimeout(timeout)
         timeout=setTimeout(typingTimeout,1500)
     }else{
+
         clearTimeout(timeout)
         typingTimeout()
     }
 
     socket.on('display', (data)=>{
-        if(data.typing==true) {
-            document.querySelector('#typing').innerHTML =`${user} is typing...`
+        console.log("here ",data)
+        //console.log('this name ',data.username)
+        if(data.data.typing==true) {
+            document.querySelector('#typing').innerHTML =`${data.username} is typing...`
 
 
             autoscroll()
         }
         else {
             document.querySelector('#typing').innerHTML = ''
+            autoscroll()
           //  $messages.insertAdjacentHTML('beforeend', document.querySelector('#typing').innerHTML)
         }
     })
