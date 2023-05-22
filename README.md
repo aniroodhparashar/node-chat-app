@@ -42,7 +42,7 @@ socket.io: version ^4.6.1<br>
 
 
 # Working Link
-[https://node-chat-app-ugqr.onrender.com/] Demo/ Working Link
+[https://node-chat-app-ugqr.onrender.com/](Demo/ Working Link)
 
 ### Contributing
 Contributions are welcome! If you find any issues or have suggestions for improvement, please submit a pull request or open an issue on GitHub.
