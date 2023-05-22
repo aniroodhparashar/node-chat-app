@@ -1,4 +1,4 @@
-Chat App with File Sharing Functionality
+**Chat App with File Sharing Functionality**
 
 This is a simple chat application built using Node.js, Express, Socket.IO, and Mustache as the view engine. The app allows users to create chat rooms and join existing rooms to engage in real-time communication. Additionally, it provides file sharing functionality, enabling users to exchange files within the chat.
 
