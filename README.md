@@ -14,10 +14,10 @@ Node.js (version 18.12.1)
 NPM (version 8.19.2)
 
 ## Installation
-Clone the repository:
+Clone the repository:<br>
 `git clone [https://github.com/your-username/chat-app.git](https://github.com/aniroodhparashar/node-chat-app.git)`
 
-Navigate to the project directory:
+Navigate to the project directory:<br>
 
 `cd chat-app`
 
@@ -27,18 +27,22 @@ Navigate to the project directory:
 
 ## Start the application:
 
-`npm start`
+`npm start`<br>
 
 Open your browser and visit http://localhost:3000 to access the chat app.
 
 ## Configuration
-You can configure the app by modifying the following files:
+You can configure the app by modifying the following files:<br>
 
-config.js: Set the desired port number and other application configurations.
-views/: Customize the HTML templates using Mustache view engine.
-Dependencies
-express: version ^4.18.2
-socket.io: version ^4.6.1
+config.js: Set the desired port number and other application configurations.<br>
+views/: Customize the HTML templates using Mustache view engine.<br>
+Dependencies<br>
+express: version ^4.18.2<br>
+socket.io: version ^4.6.1<br>
+
+
+# Working Link
+[https://node-chat-app-ugqr.onrender.com/] Demo/ Working Link
 
 ### Contributing
 Contributions are welcome! If you find any issues or have suggestions for improvement, please submit a pull request or open an issue on GitHub.
